@@ -5,10 +5,10 @@ class mysql_utils {
             host: 'localhost',
             user: 'root',
             password: '123456',
-            database: 'syw'
+            database: 'GenshinTools'
         });
     }
-    getAllData(tableName = 'suit') {
+    getAllData(tableName = 'test') {
         this.connection.connect();
         // 使用 Promise 封装异步操作
         return new Promise((resolve, reject) => {
@@ -20,7 +20,18 @@ class mysql_utils {
                 }
             });
         });
-
+    }
+    createTable(tableName = 'test', valuesQuery=''){
+        this.connection.connect();
+        return new Promise((resolve, reject) => {
+            this.connection.query('create table '+tableName+' VALUES('+valuesQuery+')', function (error, results, fields) {
+                if (error) {
+                    reject(error); // 如果出现错误，将错误传递给 reject
+                } else {
+                    resolve(results[0]); // 如果成功，将结果传递给 resolve
+                }
+            });
+        });
     }
 }
 
